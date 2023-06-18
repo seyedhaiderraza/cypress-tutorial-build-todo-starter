@@ -1,35 +1,57 @@
-import React, {Component} from 'react'
+import React, {Component, useState} from 'react'
 import {BrowserRouter as Router, Route} from 'react-router-dom'
 import TodoForm from './TodoForm'
 import TodoList from './TodoList'
 import Footer from './Footer'
+import { saveTodo } from '../lib/service'
 
 
-export default class TodoApp extends Component {
-  constructor(props) {
-    super(props)
+const TodoApp=()=> {
+ const[currentTodo, setCurrentTodo] = useState('')
+ const[todos, setTodos] = useState([])
+  const[error, setError] = useState({})
 
-    this.state = {
-      todos: []
-    }
+const handleFormInput = (e) =>{
+setCurrentTodo(e.target.value)
+}
+   /*onchange will not work since this 
+          is not native input
+<TodoForm onChange={handleFormInput} currentTodo={currentTodo}/>
+       
+    it needs to be passed into the component 
+    where it can be used correctly*/
+  const handleTodoSubmit=(eventT)=>{
+    eventT.preventDefault()
+    const newTodo = {name: currentTodo, isComplete: false}
+    saveTodo(newTodo)
+      .then(({data}) => 
+        setTodos(prev=>
+          [...prev,data]
+        ) //need to pass as an array
+       ,
+        setCurrentTodo('')
+      )
+      .catch(error=>{
+         setError({error:true})
+        })
   }
 
-
-
-  render () {
     return (
       <Router>
         <div>
           <header className="header">
             <h1>todos</h1>
-            <TodoForm />
+            {error? <span style={{background:'red', 'font-size': '34px', 'color':'white'}} className="error">Error Occured</span>:null}
+            <TodoForm handleTodoSubmit={handleTodoSubmit} handleFormInput={handleFormInput} currentTodo={currentTodo}/>
           </header>
           <section className="main">
-            <TodoList todos={this.state.todos} />
+            <TodoList todos={todos} />
           </section>
           <Footer />
         </div>
       </Router>
     )
+  
   }
-}
+
+  export default  TodoApp

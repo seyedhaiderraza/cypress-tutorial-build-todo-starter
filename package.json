@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "cypress": "cypress open",
     "build": "webpack",
     "watch": "webpack --watch",
     "serve": "json-server db.json",
