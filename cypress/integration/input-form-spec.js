@@ -12,7 +12,7 @@ describe('input form', ()=>{
         cy.visit('http://localhost:3030')
         cy.get('.new-todo')
     })
-    it.only('accepts input', ()=>{
+    it('accepts input', ()=>{
         const typedText = 'Buy Milk'
         cy.visit('http://localhost:3030')
 
@@ -51,7 +51,7 @@ describe('input form', ()=>{
           .and('contain', 'complete testing tutorial')
         })
 
-        it.only('show error  on form submit', ()=>{
+        it('show error  on form submit', ()=>{
             cy.server()
             //instead of todo object we now have a error object
             cy.route({
