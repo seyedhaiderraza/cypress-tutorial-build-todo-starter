@@ -8,7 +8,7 @@ describe('Smoke tests', ()=>{
 
     context('With active todos',()=>{
 
-        it.only('save a new todo item and assert the length of todo item to be 1',()=>{
+        it('save a new todo item and assert the length of todo item to be 1',()=>{
 
             cy.visit("/")
             ///////////////////
@@ -26,5 +26,32 @@ describe('Smoke tests', ()=>{
             .should('have.length', 1)
         })
 
-})
+        it.only('add multiple each items from todo list',()=>{
+           
+            const items = [
+                {text: 'Complete cypress tutorial', expectedLength: 1},
+                {text: 'Play assassins creed', expectedLength: 2},
+                {text: 'Complete React testing 1hr tutorial', expectedLength: 3},
+                {text: 'Complete React another 1 hr tutorial', expectedLength: 4}
+            ]
+            cy.visit("/")
+            cy.server()
+            cy.route('POST', '/api/todos')
+            .as('create')
+            cy.wrap(items)
+            .each(todo=>{
+                cy.focused()
+                .type(`${todo.text}{enter}`)
+
+                cy.wait('@create')
+
+                cy.get('.todo-list li')
+                .should('have.length', todo.expectedLength)
+            })
+         })
+
+
+
+
+    })
 })
