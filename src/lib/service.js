@@ -7,3 +7,8 @@ export const saveTodo = (todo)=>{
 export const loadTodos = ()=> {
    return axios.get('http://localhost:3030/api/todos')
 }
+
+
+export const deleteTodos = (id)=> {
+    return axios.delete(`http://localhost:3030/api/todos/${id}`)
+ }

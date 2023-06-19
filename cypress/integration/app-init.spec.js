@@ -4,15 +4,15 @@ describe("On App load Todo List Default entries",()=>{
 
     it('assert if todo-list is populated with 5 items',()=>{
       
-        // cy.server()
-        // cy.route('GET','api/todos', 'fixture:todos')
-        // cy.visit('/')
-        cy.seedAndVisit()
+        //  cy.server()
+        //  cy.route('GET','api/todos', 'fixture:todos')
+        //  cy.visit('/')
+          cy.seedAndVisit()
 
         cy.get('.todo-list li')
         .should('have.length', 5)
     })
-    it.only('failure on App load so error object and empty todolist',()=>{
+    it('failure on App load so error object and empty todolist',()=>{
         cy.server()
         cy.route({
             url: 'api/todos',

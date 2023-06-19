@@ -3,7 +3,7 @@ import {BrowserRouter as Router, Route} from 'react-router-dom'
 import TodoForm from './TodoForm'
 import TodoList from './TodoList'
 import Footer from './Footer'
-import { loadTodos, saveTodo } from '../lib/service'
+import { deleteTodos, loadTodos, saveTodo } from '../lib/service'
 
 
 const TodoApp=()=> {
@@ -57,6 +57,13 @@ const TodoApp=()=> {
         })
   }
 
+  const handleDeletion= (id)=>{
+    deleteTodos(id)
+    .then(()=>{
+      setTodos(prev=> [...prev.filter(todo=>todo.id!==id)])
+    })
+  }
+  const remainingtodos = todos.filter(todo=> todo.isComplete!==true)
     return (
       <Router>
         <div>
@@ -66,9 +73,9 @@ const TodoApp=()=> {
             <TodoForm handleTodoSubmit={handleTodoSubmit} handleFormInput={handleFormInput} currentTodo={currentTodo}/>
           </header>
           <section className="main">
-            <TodoList todos={todos} />
+            <TodoList todos={todos} handleDeletion={handleDeletion} />
           </section>
-          <Footer />
+          <Footer remainingtodos={remainingtodos} />
         </div>
       </Router>
     )
