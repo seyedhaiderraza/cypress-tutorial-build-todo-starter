@@ -97,12 +97,12 @@ const[filter, setFilter] = useState('')
           </header>
           <section className="main">
           {filter==='active'?
-            <TodoList todos={todos.filter(todo=>todo.isComplete!==true)} handleDeletion={handleDeletion} handleToggle={handleToggle} />
-        : filter==='completed'?
-        <TodoList todos={todos.filter(todo=>todo.isComplete===true)} handleDeletion={handleDeletion} handleToggle={handleToggle} />
-    
-        :
-            <TodoList todos={todos} handleDeletion={handleDeletion} handleToggle={handleToggle} />
+              <TodoList todos={todos.filter(todo=>todo.isComplete!==true)} handleDeletion={handleDeletion} handleToggle={handleToggle} />
+          :
+          filter==='completed'?
+              <TodoList todos={todos.filter(todo=>todo.isComplete===true)} handleDeletion={handleDeletion} handleToggle={handleToggle} />
+          :
+              <TodoList todos={todos} handleDeletion={handleDeletion} handleToggle={handleToggle} />
        
           }
           </section>
