@@ -12,3 +12,8 @@ export const loadTodos = ()=> {
 export const deleteTodos = (id)=> {
     return axios.delete(`http://localhost:3030/api/todos/${id}`)
  }
+
+ export const updateTodos = (todo)=> {
+   return  axios.put(`http://localhost:3030/api/todos/${todo.id}`, todo)
+
+ }

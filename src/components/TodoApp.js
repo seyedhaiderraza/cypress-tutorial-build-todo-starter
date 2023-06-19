@@ -3,7 +3,7 @@ import {BrowserRouter as Router, Route} from 'react-router-dom'
 import TodoForm from './TodoForm'
 import TodoList from './TodoList'
 import Footer from './Footer'
-import { deleteTodos, loadTodos, saveTodo } from '../lib/service'
+import { deleteTodos, loadTodos, saveTodo, updateTodos } from '../lib/service'
 
 
 const TodoApp=()=> {
@@ -63,6 +63,24 @@ const TodoApp=()=> {
       setTodos(prev=> [...prev.filter(todo=>todo.id!==id)])
     })
   }
+
+  const handleToggle=(id)=>{
+    const targetTodo = todos.find(todo=> todo.id===id)
+    const updatedTodo = {
+      ...targetTodo,
+      isComplete: !targetTodo.isComplete
+    }
+    updateTodos(updatedTodo)
+    .then(({data})=>{
+      debugger
+      console.log(`within handleToggle|| updateTodos => `,data)
+      const newTodosList = todos.map((todo) =>
+      todo.id === data.id ? updatedTodo : todo
+    );
+    setTodos(newTodosList);
+
+    })  
+  }
   const remainingtodos = todos.filter(todo=> todo.isComplete!==true)
     return (
       <Router>
@@ -73,7 +91,7 @@ const TodoApp=()=> {
             <TodoForm handleTodoSubmit={handleTodoSubmit} handleFormInput={handleFormInput} currentTodo={currentTodo}/>
           </header>
           <section className="main">
-            <TodoList todos={todos} handleDeletion={handleDeletion} />
+            <TodoList todos={todos} handleDeletion={handleDeletion} handleToggle={handleToggle} />
           </section>
           <Footer remainingtodos={remainingtodos} />
         </div>

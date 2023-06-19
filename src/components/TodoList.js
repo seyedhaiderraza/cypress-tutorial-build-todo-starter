@@ -3,7 +3,7 @@ import React from 'react'
 const TodoItem = props =>
   <li className={props.isComplete? "completed":""}>
     <div className="view">
-      <input className="toggle" type="checkbox" checked={props.isComplete} />
+      <input className="toggle" type="checkbox" checked={props.isComplete} onClick={()=>props.handleToggle(props.id)} />
       <label>
         {props.name}
       </label>
@@ -13,5 +13,5 @@ const TodoItem = props =>
 //separate component than above TodoItem
 export default props =>
   <ul className="todo-list">
-    {props.todos.map(todo => <TodoItem key={todo.id} {...todo} handleDeletion={props.handleDeletion} />)}
+    {props.todos.map(todo => <TodoItem key={todo.id} {...todo} handleDeletion={props.handleDeletion} handleToggle={props.handleToggle} />)}
   </ul>
