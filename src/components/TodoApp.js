@@ -43,18 +43,22 @@ const[filter, setFilter] = useState('')
   const handleTodoSubmit=(eventT)=>{
     eventT.preventDefault()
     const newTodo = {name: currentTodo, isComplete: false}
+   setTimeout(()=>{
     saveTodo(newTodo)
-      .then(({data}) =>{ 
-        setTodos(prev=>
-          [...prev,data]
-        ) //need to pass as an array
-       ,
-        setCurrentTodo('')
-      }
-      )
-      .catch(error=>{
-         setError({error:'Error Occured'})
-        })
+    .then(({data}) =>{ 
+      setTodos(prev=>
+        [...prev,data]
+      ) //need to pass as an array
+     ,
+      setCurrentTodo('')
+    }
+    )
+    .catch(error=>{
+       setError({error:'Error Occured'})
+      })
+   }, 4500)
+   
+
   }
 
   const handleDeletion= (id)=>{
@@ -91,7 +95,7 @@ const[filter, setFilter] = useState('')
         <div>
           <header className="header">
             <h1>todos</h1>
-            {error? <span style={{background:'red', 'font-size': '34px', 'color':'white'}} className="error">{error.error}</span>:null}
+            {error.error? <span style={{background:'red', 'font-size': '34px', 'color':'white'}} className="error" > {error.error}</span> : null }
             
             <TodoForm handleTodoSubmit={handleTodoSubmit} handleFormInput={handleFormInput} currentTodo={currentTodo}/>
           </header>
