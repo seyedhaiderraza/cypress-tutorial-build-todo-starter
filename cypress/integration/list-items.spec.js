@@ -47,7 +47,7 @@ even if the button is not directly visible
 
          })
 
-         it.only('Marks an incomplete item complete', ()=>{
+         it('Marks an incomplete item complete', ()=>{
             cy.fixture('todos')
             .then(todos=>{
                 const target = Cypress._.head(todos)

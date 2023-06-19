@@ -9,10 +9,10 @@ import { deleteTodos, loadTodos, saveTodo, updateTodos } from '../lib/service'
 const TodoApp=()=> {
  const[currentTodo, setCurrentTodo] = useState('')
  const[todos, setTodos] = useState([])
-  const[error, setError] = useState({})
+ const[error, setError] = useState({})
+const[filter, setFilter] = useState('')
 
     useEffect(()=>{
-
       loadTodos()
       .then((data)=>{
         console.log("loadTodos", data)
@@ -81,6 +81,10 @@ const TodoApp=()=> {
 
     })  
   }
+
+  const handleFilter = (filter) =>{
+    setFilter(filter)
+  }
   const remainingtodos = todos.filter(todo=> todo.isComplete!==true)
     return (
       <Router>
@@ -88,12 +92,21 @@ const TodoApp=()=> {
           <header className="header">
             <h1>todos</h1>
             {error? <span style={{background:'red', 'font-size': '34px', 'color':'white'}} className="error">{error.error}</span>:null}
+            
             <TodoForm handleTodoSubmit={handleTodoSubmit} handleFormInput={handleFormInput} currentTodo={currentTodo}/>
           </header>
           <section className="main">
+          {filter==='active'?
+            <TodoList todos={todos.filter(todo=>todo.isComplete!==true)} handleDeletion={handleDeletion} handleToggle={handleToggle} />
+        : filter==='completed'?
+        <TodoList todos={todos.filter(todo=>todo.isComplete===true)} handleDeletion={handleDeletion} handleToggle={handleToggle} />
+    
+        :
             <TodoList todos={todos} handleDeletion={handleDeletion} handleToggle={handleToggle} />
+       
+          }
           </section>
-          <Footer remainingtodos={remainingtodos} />
+          <Footer remainingtodos={remainingtodos} handleFilter={handleFilter}/>
         </div>
       </Router>
     )
